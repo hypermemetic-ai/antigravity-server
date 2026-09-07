@@ -252,3 +252,48 @@ func TestTicketCustomWorkspaceRoot(t *testing.T) {
 		t.Fatalf("unexpected response: %+v", resp)
 	}
 }
+
+func TestTicketEmptyWorkspaceRoot(t *testing.T) {
+	tempDir := t.TempDir()
+	t.Chdir(tempDir)
+
+	ticketDir := filepath.Join(tempDir, ".architect", "tickets")
+	if err := os.MkdirAll(ticketDir, 0755); err != nil {
+		t.Fatal(err)
+	}
+
+	convID := "conv-empty-ws"
+	ticketContent := "# Ticket in CWD\n"
+	ticketFile := filepath.Join(ticketDir, convID+".md")
+	if err := os.WriteFile(ticketFile, []byte(ticketContent), 0644); err != nil {
+		t.Fatal(err)
+	}
+
+	mgr := New(Options{WorkspaceRoot: ""})
+	mux := http.NewServeMux()
+	mgr.Register(mux)
+
+	// No workspaceRoot query param provided
+	req := httptest.NewRequest(http.MethodGet, APIPath+"?conversationId="+convID, nil)
+	rec := httptest.NewRecorder()
+	mux.ServeHTTP(rec, req)
+
+	if rec.Code != http.StatusOK {
+		t.Fatalf("expected 200 OK, got %d: %s", rec.Code, rec.Body.String())
+	}
+
+	var resp Response
+	if err := json.NewDecoder(rec.Body).Decode(&resp); err != nil {
+		t.Fatal(err)
+	}
+
+	if !resp.OK {
+		t.Fatalf("expected ok: true, got ok: false with error %q", resp.Error)
+	}
+	if resp.Path != ticketFile {
+		t.Errorf("expected path %q, got %q", ticketFile, resp.Path)
+	}
+	if resp.Content != ticketContent {
+		t.Errorf("expected content %q, got %q", ticketContent, resp.Content)
+	}
+}

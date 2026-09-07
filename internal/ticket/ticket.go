@@ -174,20 +174,32 @@ func (m *Manager) validatePath(inputPath string) (string, error) {
 		inputPath = filepath.Join(m.homeDir, strings.TrimPrefix(inputPath, "~"))
 	}
 
-	cleaned := filepath.Clean(inputPath)
+	absPath, err := filepath.Abs(inputPath)
+	if err != nil {
+		return "", err
+	}
+	cleaned := filepath.Clean(absPath)
 
 	var allowed []string
 	if m.homeDir != "" {
-		allowed = append(allowed, filepath.Join(m.homeDir, ".gemini"), m.homeDir)
+		if absHome, err := filepath.Abs(m.homeDir); err == nil {
+			allowed = append(allowed, filepath.Join(absHome, ".gemini"), absHome)
+		} else {
+			allowed = append(allowed, filepath.Join(m.homeDir, ".gemini"), m.homeDir)
+		}
 	}
 	if m.workspaceRoot != "" {
-		allowed = append(allowed, m.workspaceRoot)
+		if absWs, err := filepath.Abs(m.workspaceRoot); err == nil {
+			allowed = append(allowed, absWs)
+		} else {
+			allowed = append(allowed, m.workspaceRoot)
+		}
 	}
 
-	// If workspaceRoot was not set (e.g. default "."), allow working directory if nothing else is specified
-	if len(allowed) == 0 {
-		cwd, err := os.Getwd()
-		if err == nil {
+	if cwd, err := os.Getwd(); err == nil {
+		if absCwd, err := filepath.Abs(cwd); err == nil {
+			allowed = append(allowed, absCwd)
+		} else {
 			allowed = append(allowed, cwd)
 		}
 	}
