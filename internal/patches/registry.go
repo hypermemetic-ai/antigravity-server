@@ -29,7 +29,9 @@ var (
 	mobileKebabMenuPinArchiveRe      = regexp.MustCompile(`(?:const|var)\s+([a-zA-Z0-9_$]+)=\(\{cascadeId:([a-zA-Z0-9_$]+),onDeleteClick:([a-zA-Z0-9_$]+),onRenameClick:([a-zA-Z0-9_$]+),onMarkAsReadClick:([a-zA-Z0-9_$]+),isUnread:([a-zA-Z0-9_$]+),onViewDebugClick:([a-zA-Z0-9_$]+)([^\}]*)\}\)=>([a-zA-Z0-9_$]+)\.createElement\(([a-zA-Z0-9_$]+),\{side:"bottom",align:"start",className:"min-w-\[180px\]",finalFocus:!1\},([a-zA-Z0-9_$]+)\.createElement\(([a-zA-Z0-9_$]+),\{onClick:([a-zA-Z0-9_$]+),"data-testid":"conversation-rename-menu-item"\},([a-zA-Z0-9_$]+)\.createElement\(([a-zA-Z0-9_$]+),\{name:"edit",size:16,className:"text-secondary-foreground shrink-0"\}\),([a-zA-Z0-9_$]+)\.createElement\("span",null,"Rename"\)\),`)
 	mobileKebabWrapperPinArchiveRe   = regexp.MustCompile(`(?:const|var)\s+([a-zA-Z0-9_$]+)=(?:(?:[a-zA-Z0-9_$]+)\.memo\()?[\r\n\s]*(?:function)?\(\{cascadeId:([a-zA-Z0-9_$]+),onDeleteClick:([a-zA-Z0-9_$]+),onRenameClick:([a-zA-Z0-9_$]+),onMarkAsReadClick:([a-zA-Z0-9_$]+),isUnread:([a-zA-Z0-9_$]+),onOpenChange:([a-zA-Z0-9_$]+),onViewDebugClick:([a-zA-Z0-9_$]+)[^\}]*\}\)(?:=>|\{return\s+)([a-zA-Z0-9_$]+)\.createElement\(([a-zA-Z0-9_$]+),\{onOpenChange:([a-zA-Z0-9_$]+)\},([a-zA-Z0-9_$]+)\.createElement\(([a-zA-Z0-9_$]+),\{asChild:!0\},([a-zA-Z0-9_$]+)\.createElement\(([a-zA-Z0-9_$]+),\{variant:"ghost",size:"icon","aria-label":"More options","data-testid":"conversation-kebab",onClick:([a-zA-Z0-9_$]+)=>void ([a-zA-Z0-9_$]+)\.stopPropagation\(\)\},([a-zA-Z0-9_$]+)\.createElement\(([a-zA-Z0-9_$]+),\{name:"more_vert",size:16\}\)\)\),([a-zA-Z0-9_$]+)\.createElement\(([a-zA-Z0-9_$]+),\{cascadeId:([a-zA-Z0-9_$]+),onDeleteClick:([a-zA-Z0-9_$]+),onRenameClick:([a-zA-Z0-9_$]+),onMarkAsReadClick:([a-zA-Z0-9_$]+),isUnread:([a-zA-Z0-9_$]+),[\r\n\s]*onViewDebugClick:([a-zA-Z0-9_$]+)[^\}]*\}\)(?:\))?(?:\})?(?:\))?;`)
 	mobileKebabCallPinArchiveRe      = regexp.MustCompile(`([a-zA-Z0-9_$]+)\.createElement\(([a-zA-Z0-9_$]+),[\r\n\s]*\{cascadeId:([a-zA-Z0-9_$]+),onDeleteClick:(\(\)=>\{?[a-zA-Z0-9_$]+\(!0\)\}?|[a-zA-Z0-9_$]+),onRenameClick:([a-zA-Z0-9_$]+),onMarkAsReadClick:([^\}]+?),isUnread:([a-zA-Z0-9_$]+(?:\.[a-zA-Z0-9_$]+)?),onOpenChange:([a-zA-Z0-9_$]+)(?:,[\r\n\s]*onViewDebugClick:([a-zA-Z0-9_$]+))?(?:,[\r\n\s]*onShareClick:[^\}]+?)?\}\)`)
-	mobileHideAuxSidebarRe           = regexp.MustCompile(`([a-zA-Z0-9_$]+)\.createElement\(([a-zA-Z0-9_$]+),\{iconName:"dock_to_bottom",onClick:[a-zA-Z0-9_$]+,"aria-label":"Toggle Auxiliary Pane",dataTestId:"mobile-toggle-aux-sidebar"\}\)`)
+	mobileHideAuxSidebarRe           = regexp.MustCompile(`([a-zA-Z0-9_$]+)\.createElement\(([a-zA-Z0-9_$]+),\{iconName:"dock_to_bottom",onClick:([a-zA-Z0-9_$]+),"aria-label":"Toggle Auxiliary Pane",dataTestId:"mobile-toggle-aux-sidebar"\}\)`)
+	mobileAuxContainerRe             = regexp.MustCompile(`second:([a-zA-Z0-9_$]+)\.createElement\("div",\{className:"relative flex-1 flex min-w-0 h-full"\},[\r\n\s]*([a-zA-Z0-9_$]+),([a-zA-Z0-9_$]+)\.createElement\(([a-zA-Z0-9_$]+),null\)\)`)
+	mobileTitlebarTicketButtonRe     = regexp.MustCompile(`,([a-zA-Z0-9_$]+)\.createElement\(([a-zA-Z0-9_$]+),null,([a-zA-Z0-9_$]+)\.createElement\(([a-zA-Z0-9_$]+),\{asChild:!0\},([a-zA-Z0-9_$]+)\.createElement\(([a-zA-Z0-9_$]+),\{iconName:"more_vert",dataTestId:"titlebar-more-actions"\}\)\)`)
 	settingsRulesEditorRe            = regexp.MustCompile(`((?:var|const)\s+([a-zA-Z0-9_$]+)=\(\{name:a,path:b,onCopyPath:c[^\}]*?onEdit:([a-zA-Z0-9_$]+),editTitle:([a-zA-Z0-9_$]+)="Edit",onDelete:([a-zA-Z0-9_$]+),deleteTitle:([a-zA-Z0-9_$]+)="Delete",onToggle:([a-zA-Z0-9_$]+),toggleChecked:([a-zA-Z0-9_$]+),toggleDisabled:([a-zA-Z0-9_$]+)=!1,expandableContent:([a-zA-Z0-9_$]+)[^\}]*?\}\)=>\{)(var\s+[a-zA-Z0-9_$]+=[a-zA-Z0-9_$]+(?:\|\|[a-zA-Z0-9_$]+)+,\[[a-zA-Z0-9_$]+,[a-zA-Z0-9_$]+\]=\(0,([a-zA-Z0-9_$]+)\.useState\)\(!1\),)`)
 	settingsCustomizationsShowEditRe = regexp.MustCompile(`("Copy path"\)\),)!([a-zA-Z0-9_$]+)&&([a-zA-Z0-9_$]+)&&([a-zA-Z0-9_$]+)\.createElement\(([a-zA-Z0-9_$]+)\.Fragment,null,([a-zA-Z0-9_$]+)\.createElement\(([a-zA-Z0-9_$]+),\{variant:"ghost",size:"icon-sm",onClick:([a-zA-Z0-9_$]+),"aria-label":`)
 
@@ -268,7 +270,16 @@ func All() []Patch {
 			Kind:    Regexp,
 			Enabled: mobile,
 			FindRe:  mobileTitlebarDeleteMenuRe,
-			Replace: `$1&&($2.push({iconName:"edit",tooltip:"Rename",onClick:$3}),$2.push({iconName:"delete",tooltip:"Delete",onClick:()=>{agySetShowDel(!0)}})`,
+			Replace: `$1&&($2.push({iconName:"assignment",tooltip:"Ticket",onClick:()=>{window.__agyOpenTicket&&window.__agyOpenTicket($1)}}),$2.push({iconName:"edit",tooltip:"Rename",onClick:$3}),$2.push({iconName:"delete",tooltip:"Delete",onClick:()=>{agySetShowDel(!0)}})`,
+		},
+		{
+			ID:      "mobile-ticket-button",
+			Desc:    "Inject dedicated Ticket button in conversation titlebar on mobile",
+			Target:  MainJS,
+			Kind:    Regexp,
+			Enabled: mobile,
+			FindRe:  mobileTitlebarTicketButtonRe,
+			Replace: `,$1.createElement($6,{iconName:"assignment",tooltip:"Ticket",onClick:()=>{window.__agyOpenTicket&&window.__agyOpenTicket()},"aria-label":"View Ticket",dataTestId:"mobile-ticket-button",className:"flex items-center justify-center p-1 rounded hover:bg-accent text-foreground touch-manipulation cursor-pointer"}),$1.createElement($2,null,$3.createElement($4,{asChild:!0},$5.createElement($6,{iconName:"more_vert",dataTestId:"titlebar-more-actions"}))`,
 		},
 		{
 			ID:      "mobile-delete-modal-export",
@@ -319,13 +330,22 @@ func All() []Patch {
 			Replace:  `$1.createElement($2,{cascadeId:$3,onDeleteClick:($4),onRenameClick:$5,onMarkAsReadClick:$6,isUnread:$7,onOpenChange:$8,onPinClick:()=>b.handlePin?.(a),isPinned:b.isPinned,onArchiveClick:()=>b.handleArchive?.(a)})`,
 		},
 		{
-			ID:      "mobile-hide-aux-sidebar",
-			Desc:    "Hide unclickable auxiliary sidebar toggle icon on mobile navigation bar",
+			ID:      "mobile-aux-drawer",
+			Desc:    "Make auxiliary sidebar toggle accessible and styled on mobile navigation bar",
 			Target:  MainJS,
 			Kind:    Regexp,
 			Enabled: mobile,
 			FindRe:  mobileHideAuxSidebarRe,
-			Replace: `null`,
+			Replace: `$1.createElement($2,{iconName:"dock_to_bottom",onClick:$3,"aria-label":"Toggle Auxiliary Pane",dataTestId:"mobile-toggle-aux-sidebar",className:"flex items-center justify-center p-1 rounded hover:bg-accent text-foreground touch-manipulation cursor-pointer"})`,
+		},
+		{
+			ID:      "mobile-aux-pane-overlay",
+			Desc:    "Render auxiliary pane on mobile viewports as a responsive slide-up drawer overlay with close header",
+			Target:  MainJS,
+			Kind:    Regexp,
+			Enabled: mobile,
+			FindRe:  mobileAuxContainerRe,
+			Replace: `second:$1.createElement("div",{className:(Boolean(window.innerWidth<=768||(window.matchMedia&&window.matchMedia("(pointer:coarse)").matches))?"fixed inset-0 z-50 bg-card flex flex-col aux-drawer-popup overflow-hidden":"relative flex-1 flex min-w-0 h-full")},(Boolean(window.innerWidth<=768||(window.matchMedia&&window.matchMedia("(pointer:coarse)").matches))?$1.createElement("div",{className:"flex items-center justify-between px-3 py-2 border-b border-border bg-muted/40 shrink-0 select-none",style:{paddingTop:"max(0.5rem, env(safe-area-inset-top, 0px))"}},$1.createElement("div",{className:"flex items-center gap-2 font-medium text-sm text-foreground"},$1.createElement("span",null,"Auxiliary Pane")),$1.createElement("button",{type:"button",onClick:aa,className:"flex items-center gap-1 text-xs px-2.5 py-1 rounded bg-secondary text-secondary-foreground hover:bg-secondary/80 border border-border touch-manipulation cursor-pointer","aria-label":"Back to Chat","data-testid":"mobile-aux-close-button"},$1.createElement("span",null,"\u2190 Back to Chat"))):null),$2,$3.createElement($4,null))`,
 		},
 		{
 			ID:      "settings-rules-editor",
@@ -485,6 +505,14 @@ func All() []Patch {
 			Kind:    InjectHead,
 			Enabled: mobile,
 			Replace: signInBanner,
+		},
+		{
+			ID:      "mobile-ticket-reader",
+			Desc:    "Inject client-side session ticket viewer sheet and markdown reader",
+			Target:  HTML,
+			Kind:    InjectHead,
+			Enabled: mobile,
+			Replace: ticketReaderScript,
 		},
 		{
 			ID:     "cache-bust",
@@ -707,6 +735,64 @@ div.user-input-buttons-container > * {
   div[data-testid^="conversation-row-"] [data-testid="conversation-delete-button"] {
     display: none !important;
   }
+
+  /* Mobile Auxiliary Drawer: prevent horizontal flex squishing and provide responsive slide-up sheet */
+  div[style*="container-type: size"] > div:first-child {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 1 1 100% !important;
+  }
+  div[style*="container-type: size"] > div:last-child {
+    width: 0 !important;
+    min-width: 0 !important;
+    flex-shrink: 1 !important;
+  }
+  .aux-drawer-popup {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 50 !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    height: 100% !important;
+    background-color: var(--card, #18181b) !important;
+    border-top: 1px solid var(--border, #27272a) !important;
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1) !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior-y: contain !important;
+    padding-bottom: max(0.5rem, var(--agy-bottom, env(safe-area-inset-bottom, 0px))) !important;
+  }
+  /* Accessible touch sizing for auxiliary and ticket buttons */
+  [data-testid="mobile-toggle-aux-sidebar"],
+  [data-testid="mobile-ticket-button"] {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: 28px !important;
+    min-height: 28px !important;
+    touch-action: manipulation !important;
+    cursor: pointer !important;
+  }
+}
+
+/* Ticket Reader Markdown typography */
+.agy-ticket-markdown pre {
+  background-color: var(--muted, rgba(120,120,120,0.1)) !important;
+  padding: 0.75rem !important;
+  border-radius: 0.375rem !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+  font-size: 11px !important;
+  overflow-x: auto !important;
+  margin: 0.5rem 0 !important;
+  border: 1px solid var(--border, #27272a) !important;
+}
+.agy-ticket-markdown code:not(pre code) {
+  background-color: var(--muted, rgba(120,120,120,0.1)) !important;
+  padding: 0.125rem 0.375rem !important;
+  border-radius: 0.25rem !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+  font-size: 11px !important;
+  border: 1px solid var(--border, #27272a) !important;
 }
 </style>`
 
@@ -1547,5 +1633,169 @@ const uploaderScript = `<script>
     hiddenFileInput.value = '';
     hiddenFileInput.click();
   };
+})();
+</script>`
+
+const ticketReaderScript = `<script id="agy-ticket-reader">
+(function() {
+  var activeConvoId = "";
+
+  function getActiveConversationId() {
+    var params = new URLSearchParams(window.location.search);
+    var id = params.get('conversationId') || params.get('c');
+    if (id) return id;
+    var path = window.location.pathname;
+    if (path.startsWith('/c/')) {
+      return path.slice(3).split('/')[0];
+    }
+    var row = document.querySelector('[data-testid^="conversation-row-"][data-active="true"]');
+    if (row) {
+      var tid = row.getAttribute('data-testid');
+      if (tid) return tid.replace('conversation-row-', '');
+    }
+    return '';
+  }
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  function renderMarkdown(md) {
+    if (!md) return '';
+    var esc = escapeHtml(md);
+    var _b1 = String.fromCharCode(96);
+    var _b3 = _b1 + _b1 + _b1;
+    esc = esc.replace(new RegExp(_b3 + '([a-zA-Z0-9_-]*)\\n([\\s\\S]*?)' + _b3, 'g'), function(m, lang, code) {
+      return '<pre class="bg-muted p-2.5 rounded-md text-xs font-mono overflow-x-auto my-2 border border-border text-foreground"><code>' + code + '</code></pre>';
+    });
+    esc = esc.replace(new RegExp(_b1 + '([^' + _b1 + ']+)' + _b1, 'g'), '<code class="bg-muted px-1.5 py-0.5 rounded text-xs font-mono text-foreground border border-border/50">$1</code>');
+    esc = esc.replace(/^### (.*$)/gim, '<h3 class="text-sm font-semibold mt-3 mb-1 text-foreground">$1</h3>');
+    esc = esc.replace(/^## (.*$)/gim, '<h2 class="text-base font-bold mt-4 mb-2 text-foreground border-b border-border pb-1">$1</h2>');
+    esc = esc.replace(/^# (.*$)/gim, '<h1 class="text-lg font-extrabold mt-4 mb-2 text-foreground border-b border-border pb-1">$1</h1>');
+    esc = esc.replace(/\\*\\*([^*]+)\\*\\*/g, '<strong class="font-semibold text-foreground">$1</strong>');
+    esc = esc.replace(/\\*([^*]+)\\*/g, '<em class="italic">$1</em>');
+    esc = esc.replace(/^\\s*[-*]\\s+(.*$)/gim, '<li class="ml-4 list-disc text-sm text-foreground my-0.5">$1</li>');
+    esc = esc.replace(/^\\s*(\\d+)\\.\\s+(.*$)/gim, '<li class="ml-4 list-decimal text-sm text-foreground my-0.5">$1</li>');
+    esc = esc.replace(/\\n\\n/g, '</p><p class="mb-2 text-sm leading-relaxed text-foreground">');
+    return '<div class="agy-ticket-markdown text-sm leading-relaxed text-foreground space-y-2 select-text">' + esc + '</div>';
+  }
+
+  function closeTicketModal() {
+    var overlay = document.getElementById('agy-ticket-modal-overlay');
+    if (overlay) {
+      overlay.style.opacity = '0';
+      setTimeout(function() {
+        if (overlay && overlay.parentNode) {
+          overlay.parentNode.removeChild(overlay);
+        }
+      }, 150);
+    }
+  }
+
+  async function fetchTicketContent(convoId, bodyEl, pathEl) {
+    bodyEl.innerHTML = '<div class="flex flex-col items-center justify-center py-16 gap-3 text-muted-foreground"><div class="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin"></div><span class="text-xs font-medium">Loading session ticket...</span></div>';
+    try {
+      var url = '/__agy/api/ticket?conversationId=' + encodeURIComponent(convoId || '');
+      var res = await fetch(url);
+      var data = await res.json();
+      if (data && data.ok) {
+        if (pathEl && data.path) {
+          pathEl.innerText = data.path.split('/').slice(-3).join('/');
+          pathEl.title = data.path;
+        }
+        bodyEl.innerHTML = renderMarkdown(data.content);
+      } else {
+        if (pathEl) pathEl.innerText = '';
+        bodyEl.innerHTML = '<div class="flex flex-col items-center justify-center py-16 px-4 text-center gap-3 text-muted-foreground">' +
+          '<div class="w-12 h-12 rounded-full bg-muted/60 flex items-center justify-center text-xl">&#128203;</div>' +
+          '<div class="font-semibold text-sm text-foreground">No Ticket Found for this Session</div>' +
+          '<div class="text-xs max-w-xs leading-normal">Start a conversation with the Architect to plan changes, or ensure .architect/tickets/' + escapeHtml(convoId || 'id') + '.md exists.</div>' +
+          '</div>';
+      }
+    } catch (err) {
+      bodyEl.innerHTML = '<div class="p-6 text-center text-xs text-destructive">Failed to load ticket: ' + escapeHtml(String(err)) + '</div>';
+    }
+  }
+
+  window.__agyOpenTicket = function(convoId) {
+    activeConvoId = convoId || getActiveConversationId();
+    var existing = document.getElementById('agy-ticket-modal-overlay');
+    if (existing && existing.parentNode) {
+      existing.parentNode.removeChild(existing);
+    }
+
+    var overlay = document.createElement('div');
+    overlay.id = 'agy-ticket-modal-overlay';
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:99999;display:flex;flex-direction:column;background-color:var(--card, #18181b);color:var(--foreground, #f4f4f5);overflow:hidden;transition:opacity 0.15s ease-out;';
+
+    // Header
+    var header = document.createElement('div');
+    header.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-bottom:1px solid var(--border, #27272a);background-color:rgba(120,120,120,0.08);flex-shrink:0;padding-top:max(8px, env(safe-area-inset-top, 0px));';
+
+    // Left: Back button & Title
+    var left = document.createElement('div');
+    left.style.cssText = 'display:flex;align-items:center;gap:10px;min-width:0;';
+
+    var backBtn = document.createElement('button');
+    backBtn.type = 'button';
+    backBtn.style.cssText = 'display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:500;padding:5px 10px;border-radius:6px;background-color:var(--secondary, #27272a);color:var(--secondary-foreground, #f4f4f5);border:1px solid var(--border, #3f3f46);cursor:pointer;touch-action:manipulation;';
+    backBtn.innerHTML = '<span>&#8592; Back to Chat</span>';
+    backBtn.onclick = closeTicketModal;
+    backBtn.setAttribute('data-testid', 'mobile-ticket-back-button');
+
+    var titleBox = document.createElement('div');
+    titleBox.style.cssText = 'display:flex;flex-direction:column;min-width:0;';
+    var title = document.createElement('span');
+    title.style.cssText = 'font-weight:600;font-size:13px;line-height:1.2;';
+    title.innerText = 'Session Ticket';
+    var pathBadge = document.createElement('span');
+    pathBadge.style.cssText = 'font-size:10px;color:var(--muted-foreground, #a1a1aa);font-family:monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:180px;';
+
+    titleBox.appendChild(title);
+    titleBox.appendChild(pathBadge);
+    left.appendChild(backBtn);
+    left.appendChild(titleBox);
+
+    // Right: Refresh & Close
+    var right = document.createElement('div');
+    right.style.cssText = 'display:flex;align-items:center;gap:6px;';
+
+    var refreshBtn = document.createElement('button');
+    refreshBtn.type = 'button';
+    refreshBtn.style.cssText = 'display:inline-flex;align-items:center;gap:4px;font-size:12px;padding:4px 8px;border-radius:6px;background-color:transparent;color:var(--muted-foreground, #a1a1aa);border:1px solid var(--border, #27272a);cursor:pointer;touch-action:manipulation;';
+    refreshBtn.innerHTML = '<span>&#8635; Refresh</span>';
+    refreshBtn.setAttribute('data-testid', 'mobile-ticket-refresh-button');
+    refreshBtn.onclick = function() {
+      fetchTicketContent(activeConvoId, body, pathBadge);
+    };
+
+    var closeBtn = document.createElement('button');
+    closeBtn.type = 'button';
+    closeBtn.style.cssText = 'display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:6px;background-color:transparent;color:var(--muted-foreground, #a1a1aa);border:none;cursor:pointer;touch-action:manipulation;';
+    closeBtn.innerHTML = '<span style="font-size:16px;">&#10005;</span>';
+    closeBtn.onclick = closeTicketModal;
+    closeBtn.setAttribute('aria-label', 'Close ticket');
+
+    right.appendChild(refreshBtn);
+    right.appendChild(closeBtn);
+
+    header.appendChild(left);
+    header.appendChild(right);
+
+    // Body
+    var body = document.createElement('div');
+    body.style.cssText = 'flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-y:contain;padding:16px;padding-bottom:max(16px, env(safe-area-inset-bottom, 0px));user-select:text;';
+
+    overlay.appendChild(header);
+    overlay.appendChild(body);
+    document.body.appendChild(overlay);
+
+    fetchTicketContent(activeConvoId, body, pathBadge);
+  };
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeTicketModal();
+  });
 })();
 </script>`

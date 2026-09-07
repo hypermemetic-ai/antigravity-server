@@ -168,7 +168,8 @@ async function runComprehensiveSmokeTest() {
     const mobileLayout = await mobilePage.evaluate(() => {
       return {
         hasViewportMeta: !!document.querySelector("meta[name=\"viewport\"]"),
-        hasAuxSidebarHidden: !document.querySelector("[data-testid=\"mobile-toggle-aux-sidebar\"]"),
+        hasAuxSidebarVisible: !!document.querySelector("[data-testid=\"mobile-toggle-aux-sidebar\"]"),
+        hasTicketButtonVisible: !!document.querySelector("[data-testid=\"mobile-ticket-button\"]"),
         bodyScrollHeight: document.body.scrollHeight
       };
     });

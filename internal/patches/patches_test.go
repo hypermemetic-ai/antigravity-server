@@ -61,7 +61,9 @@ var regexpFixtures = map[string]string{
 	"mobile-kebab-menu-pin-archive":             `const dlb=({cascadeId:a,onDeleteClick:b,onRenameClick:c,onMarkAsReadClick:d,isUnread:f,onViewDebugClick:g})=>G.createElement(HL,{side:"bottom",align:"start",className:"min-w-[180px]",finalFocus:!1},G.createElement(IL,{onClick:c,"data-testid":"conversation-rename-menu-item"},G.createElement(U,{name:"edit",size:16,className:"text-secondary-foreground shrink-0"}),G.createElement("span",null,"Rename")),`,
 	"mobile-kebab-wrapper-pin-archive":          `var elb=G.memo(function({cascadeId:a,onDeleteClick:b,onRenameClick:c,onMarkAsReadClick:d,isUnread:f,onOpenChange:g,onViewDebugClick:h}){return G.createElement(FL,{onOpenChange:g},G.createElement(GL,{asChild:!0},G.createElement(Ky,{variant:"ghost",size:"icon","aria-label":"More options","data-testid":"conversation-kebab",onClick:k=>void k.stopPropagation()},G.createElement(U,{name:"more_vert",size:16}))),G.createElement(dlb,{cascadeId:a,onDeleteClick:b,onRenameClick:c,onMarkAsReadClick:d,isUnread:f,` + "\n" + `onViewDebugClick:h}))});`,
 	"mobile-kebab-call-pin-archive":             `G.createElement(elb,` + "\n" + `{cascadeId:a,onDeleteClick:()=>{sa(!0)},onRenameClick:hb,onMarkAsReadClick:vb?ja:pa,isUnread:vb,onOpenChange:Ca})`,
-	"mobile-hide-aux-sidebar":                   `G.createElement(bZ,{iconName:"dock_to_bottom",onClick:m,"aria-label":"Toggle Auxiliary Pane",dataTestId:"mobile-toggle-aux-sidebar"})`,
+	"mobile-aux-drawer":                         `G.createElement(bZ,{iconName:"dock_to_bottom",onClick:m,"aria-label":"Toggle Auxiliary Pane",dataTestId:"mobile-toggle-aux-sidebar"})`,
+	"mobile-aux-pane-overlay":                   `second:G.createElement("div",{className:"relative flex-1 flex min-w-0 h-full"},` + "\n" + `e,G.createElement(zMb,null))`,
+	"mobile-ticket-button":                      `,G.createElement(mR,null,G.createElement(nR,{asChild:!0},G.createElement(A1,{iconName:"more_vert",dataTestId:"titlebar-more-actions"})))`,
 	"settings-rules-editor":                     `var WS=({name:a,path:b,onCopyPath:c,description:d,badge:f,disabled:g=!1,isLast:h=!1,onEdit:k,editTitle:l="Edit",onDelete:m,deleteTitle:n="Delete",onToggle:p,toggleChecked:r,toggleDisabled:t=!1,expandableContent:v})=>{var w=k||m||p,[y,z]=(0,G.useState)(!1),`,
 	"settings-customizations-show-edit":         `"Copy path")),!A&&n&&z.createElement(z.Fragment,null,Yz.createElement(Yz,{variant:"ghost",size:"icon-sm",onClick:n,"aria-label":`,
 	"suppress-conversation-unavailable-modal":   `A({tag:"trajectory-not-found",title:"Conversation unavailable",message:"The conversation could not be loaded because its data was not found."})`,
@@ -150,6 +152,10 @@ func TestPatchedContentIsCorrect(t *testing.T) {
 		`/__agy/api/rules/save`,
 		`"Copy path")),n&&z.createElement`,
 		`contractionSafetyPx:1E8,outerRadiusPx:2E8`,
+		`dataTestId:"mobile-toggle-aux-sidebar"`,
+		`mobile-aux-close-button`,
+		`mobile-ticket-button`,
+		`iconName:"assignment"`,
 	}
 	for _, w := range want {
 		if !strings.Contains(body, w) {
@@ -242,6 +248,8 @@ func TestHTMLInjection(t *testing.T) {
 		`id="agy-keyboard-detect"`,
 		`matchMedia("(pointer:coarse)")`,
 		`id="agy-signin-banner"`,
+		`id="agy-ticket-reader"`,
+		`__agyOpenTicket`,
 		`/__agy/api/signin/status`,
 		`href="/apple-touch-icon.png"`,
 		`src="/main.js?agy=testkey"`,
