@@ -24,6 +24,7 @@ import (
 	"github.com/AFSlayer/antigravity-server/internal/proxy"
 	"github.com/AFSlayer/antigravity-server/internal/rules"
 	"github.com/AFSlayer/antigravity-server/internal/signin"
+	"github.com/AFSlayer/antigravity-server/internal/ticket"
 	"github.com/AFSlayer/antigravity-server/internal/ui"
 	"github.com/AFSlayer/antigravity-server/internal/updater"
 	"github.com/AFSlayer/antigravity-server/internal/upload"
@@ -164,6 +165,11 @@ func (r *runner) start() error {
 		WorkspaceRoot: r.cfg.WorkspaceRoot,
 	})
 	rulesMgr.Register(publicMux)
+
+	ticketMgr := ticket.New(ticket.Options{
+		WorkspaceRoot: r.cfg.WorkspaceRoot,
+	})
+	ticketMgr.Register(publicMux)
 
 	var (
 		shutdownReason string
